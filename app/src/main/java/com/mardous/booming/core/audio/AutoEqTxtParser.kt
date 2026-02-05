@@ -7,6 +7,7 @@ import com.mardous.booming.core.model.equalizer.autoeq.AutoEqPoint
 import com.mardous.booming.core.model.equalizer.autoeq.AutoEqProfile
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import com.mardous.booming.extensions.files.readString
 
 object AutoEqTxtParser {
 
@@ -17,7 +18,7 @@ object AutoEqTxtParser {
         val fileName = getFileName(context, uri) ?: NAME_FALLBACK
         val inputStream = context.contentResolver.openInputStream(uri) ?: return null
 
-        val fullText = BufferedReader(InputStreamReader(inputStream)).use { it.readText() }
+        val fullText = inputStream.readString()
 
         val graphicEqLine = fullText.lines()
             .firstOrNull { it.trim().startsWith(GRAPHIC_EQ_PREFIX, ignoreCase = true) }

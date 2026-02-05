@@ -32,6 +32,7 @@ import com.mardous.booming.extensions.showToast
 import com.mardous.booming.util.m3u.M3UWriter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import com.mardous.booming.extensions.files.readString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -199,7 +200,7 @@ object BackupHelper : KoinComponent {
     }
 
     private suspend fun restoreLyrics(zipIn: ZipInputStream) {
-        val serializedLyrics = zipIn.bufferedReader().readText()
+        val serializedLyrics = zipIn.readString()
         val lyrics = Json.decodeFromString<List<LyricsEntity>>(serializedLyrics)
         lyricsDao.insertLyrics(lyrics)
     }

@@ -15,23 +15,22 @@ class LrcLyricsParser : LyricsParser {
     }
 
     override fun handles(reader: Reader): Boolean {
-        val content = reader.buffered().use { it.readText() }
-        return content
-            .lineSequence()
-            .map { it.trim() }
-            .filter { it.isNotEmpty() }
-            .any { line ->
-                if (ATTRIBUTE_PATTERN.matches(line)) {
-                    false
-                } else {
-                    val hasTime = LINE_TIME_PATTERN.containsMatchIn(line)
-                    val hasContent = LINE_PATTERN.matchEntire(line)?.groupValues
-                        ?.getOrNull(2)
-                        ?.isNotBlank() == true
+        return reader.buffered().useLines { seq ->
+            seq.map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .any { line ->
+                    if (ATTRIBUTE_PATTERN.matches(line)) {
+                        false
+                    } else {
+                        val hasTime = LINE_TIME_PATTERN.containsMatchIn(line)
+                        val hasContent = LINE_PATTERN.matchEntire(line)?.groupValues
+                            ?.getOrNull(2)
+                            ?.isNotBlank() == true
 
-                    hasTime && hasContent
+                        hasTime && hasContent
+                    }
                 }
-            }
+        }
     }
 
     override fun parse(reader: Reader, trackLength: Long): Lyrics? {

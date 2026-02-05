@@ -81,12 +81,33 @@ fun File.getContentUri(context: Context): Uri =
 fun File.toAudioFile(): AudioFile? = runCatching { AudioFileIO.read(this) }.getOrNull()
 
 /**
- * Reads this stream completely as a String.
+ * Reads this stream as a String up to [maxChars] characters (to avoid OOM on huge files).
+ * The stream is closed automatically.
  *
- * *Note*:  The stream is closed automatically.
- *
- * @return the string with corresponding file content.
+ * @param maxChars maximum number of characters to read; default 200_000
+ * @return the string with corresponding file content (may be truncated)
  */
-fun InputStream.readString(): String = this.bufferedReader().use { it.readText() }
+fun InputStream.readString(maxChars: Int = 200_000): String {
+    val reader = this.bufferedReader()
+    val sb = StringBuilder()
+    val buffer = CharArray(8192)
+    try {
+        var read: Int
+        var total = 0
+        while (reader.read(buffer).also { read = it } > 0 && total < maxChars) {
+            val remaining = maxChars - total
+            val toAppend = if (read > remaining) remaining else read
+            sb.append(buffer, 0, toAppend)
+            total += toAppend
+            if (total >= maxChars) break
+        }
+    } finally {
+        try {
+            reader.close()
+        } catch (_: Exception) {
+        }
+    }
+    return sb.toString()
+}
 
 fun OutputStream.zipOutputStream(): ZipOutputStream = ZipOutputStream(buffered())

@@ -9,6 +9,7 @@ import androidx.glance.state.GlanceStateDefinition
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.File
+import com.mardous.booming.extensions.files.readString
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -42,7 +43,7 @@ object PlaybackStateDefinition : GlanceStateDefinition<PlaybackState> {
 
         override suspend fun readFrom(input: InputStream): PlaybackState {
             try {
-                val string = input.bufferedReader().use { it.readText() }
+                val string = input.readString()
                 if (string.isBlank()) return defaultValue
                 return json.decodeFromString<PlaybackState>(string)
             } catch (e: SerializationException) {

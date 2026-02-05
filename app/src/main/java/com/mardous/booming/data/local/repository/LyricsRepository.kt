@@ -31,6 +31,7 @@ import org.mozilla.universalchardet.UniversalDetector
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.IOException
+import com.mardous.booming.extensions.files.readString
 import java.nio.charset.Charset
 import java.util.Collections
 import java.util.regex.Pattern
@@ -353,7 +354,7 @@ class RealLyricsRepository(
     override suspend fun importLyrics(song: Song, uri: Uri): Boolean {
         if (LyricsFile.isSupportedFormat(uri)) {
             return contentResolver.openInputStream(uri).use { stream ->
-                val result = runCatching { stream?.reader()?.readText() }
+                    val result = runCatching { stream?.readString() }
                 if (result.isSuccess) {
                     val fileContent = result.getOrThrow()
                     if (fileContent != null && lyricsParsers.any { it.handles(fileContent) }) {
