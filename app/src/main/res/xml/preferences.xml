@@ -48,7 +48,7 @@
         app:layout="@layout/list_item_view"
         app:title="AI Settings"
         app:summary="Configure Gemini AI features"
-        app:icon="@drawable/ic_auto_awesome_24dp"
+        app:icon="@drawable/ic_favorite_24dp"
         app:key="ai"/>
 
     <Preference

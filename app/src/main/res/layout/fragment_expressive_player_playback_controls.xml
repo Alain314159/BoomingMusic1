@@ -33,6 +33,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:progress="50" />
 
+    <com.mardous.booming.ai.ui.view.AiPlayerControlsView
+        android:id="@+id/aiControlsView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/progressSlider"
+        app:layout_constraintBottom_toTopOf="@id/controls"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/songCurrentProgress"
         android:layout_height="wrap_content"

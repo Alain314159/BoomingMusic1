@@ -227,6 +227,11 @@ class HomeFragment : AbsMainActivityFragment(R.layout.fragment_home),
                 callback = this
             )
 
+            ContentType.AiAlbums -> com.mardous.booming.ui.adapters.ai.AiAlbumAdapter(
+                activity = mainActivity,
+                dataSet = (suggestion.items as List<com.mardous.booming.data.model.AiAlbum>)
+            )
+
             ContentType.Favorites,
             ContentType.NotRecentlyPlayed -> SongAdapter(
                 activity = mainActivity,

@@ -50,7 +50,7 @@ class DailyAlbumWorker(
             // TODO: Fetch actual play counts from persistence layer if available
 
             // Generate album
-            val result = albumGenerator.generateDaily(
+            val result = albumGenerator.generateAndPersistDaily(
                 recentSongs = recentSongs,
                 playCounts = playCounts,
                 targetTrackCount = 10

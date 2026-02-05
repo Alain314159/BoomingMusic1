@@ -25,12 +25,16 @@ import com.mardous.booming.ui.component.base.SkipButtonTouchHandler.Companion.DI
 import com.mardous.booming.ui.component.views.MusicSlider
 import com.mardous.booming.ui.screen.player.PlayerAnimator
 import com.mardous.booming.util.Preferences
+import com.mardous.booming.ai.ui.view.AiPlayerControlsView
+import com.mardous.booming.ai.ui.AiPlayerViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.LinkedList
 
 class ExpressivePlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragment_expressive_player_playback_controls) {
 
     private var _binding: FragmentExpressivePlayerPlaybackControlsBinding? = null
     private val binding get() = _binding!!
+    private val aiPlayerViewModel: com.mardous.booming.ai.ui.AiPlayerViewModel by sharedViewModel()
 
     override val musicSlider: MusicSlider
         get() = binding.progressSlider
@@ -47,13 +51,31 @@ class ExpressivePlayerControlsFragment : AbsPlayerControlsFragment(R.layout.frag
         binding.playPauseButton.setOnClickListener(this)
         binding.nextButton.setOnTouchListener(getSkipButtonTouchHandler(DIRECTION_NEXT))
         binding.previousButton.setOnTouchListener(getSkipButtonTouchHandler(DIRECTION_PREVIOUS))
+
+        // Setup AI controls if present
+        val aiView = binding.root.findViewById<AiPlayerControlsView?>(R.id.aiControlsView)
+        try {
+            val aiVm: AiPlayerViewModel by sharedViewModel()
+            aiView?.setup(aiVm, playerViewModel.currentSong, "", viewLifecycleOwner)
+        } catch (e: Exception) {
+        }
     }
 
     override fun onCreatePlayerAnimator(): PlayerAnimator {
         return ExpressivePlayerAnimator(binding, Preferences.animateControls)
     }
 
-    override fun onSongInfoChanged(currentSong: Song, nextSong: Song) {}
+    override fun onSongInfoChanged(currentSong: Song, nextSong: Song) {
+        // Update AI controls when song changes
+        _binding?.let { binding ->
+            val aiView = binding.root.findViewById<com.mardous.booming.ai.ui.view.AiPlayerControlsView?>(R.id.aiControlsView)
+            try {
+                val aiVm: AiPlayerViewModel by sharedViewModel()
+                aiView?.setup(aiVm, currentSong, "", viewLifecycleOwner)
+            } catch (e: Exception) {
+            }
+        }
+    }
 
     override fun onExtraInfoChanged(extraInfo: String?) {}
 

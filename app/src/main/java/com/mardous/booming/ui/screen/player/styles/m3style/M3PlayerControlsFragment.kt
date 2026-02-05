@@ -48,6 +48,7 @@ class M3PlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragment_m3_
 
     private var _binding: FragmentM3PlayerPlaybackControlsBinding? = null
     private val binding get() = _binding!!
+    private val aiPlayerViewModel: com.mardous.booming.ai.ui.AiPlayerViewModel by sharedViewModel()
 
     override val playPauseFab: FloatingActionButton
         get() = binding.playPauseButton
@@ -84,6 +85,14 @@ class M3PlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragment_m3_
         binding.repeatButton.setOnClickListener(this)
         binding.nextButton.setOnTouchListener(getSkipButtonTouchHandler(DIRECTION_NEXT))
         binding.previousButton.setOnTouchListener(getSkipButtonTouchHandler(DIRECTION_PREVIOUS))
+        
+        // Setup AI controls if present
+        val aiView = binding.root.findViewById<AiPlayerControlsView?>(R.id.aiControlsView)
+        try {
+            val aiVm: AiPlayerViewModel by sharedViewModel()
+            aiView?.setup(aiVm, playerViewModel.currentSong, "", viewLifecycleOwner)
+        } catch (e: Exception) {
+        }
     }
 
     override fun onCreatePlayerAnimator(): PlayerAnimator {
@@ -94,6 +103,13 @@ class M3PlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragment_m3_
         _binding?.let { nonNullBinding ->
             nonNullBinding.title.text = currentSong.title
             nonNullBinding.text.text = getSongArtist(currentSong)
+            
+            // Update AI controls when song changes
+                val aiView = nonNullBinding.root.findViewById<AiPlayerControlsView?>(R.id.aiControlsView)
+                try {
+                    aiView?.setup(aiPlayerViewModel, currentSong, "", viewLifecycleOwner)
+            } catch (e: Exception) {
+            }
         }
     }
 

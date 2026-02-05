@@ -184,6 +184,10 @@ private val roomModule = module {
     factory {
         get<BoomingDatabase>().canvasDao()
     }
+
+    factory {
+        get<BoomingDatabase>().aiAlbumDao()
+    }
 }
 
 private val dataModule = module {
@@ -199,7 +203,8 @@ private val dataModule = module {
             smartRepository = get(),
             specialRepository = get(),
             playlistRepository = get(),
-            searchRepository = get()
+            searchRepository = get(),
+            aiAlbumRepository = get()
         )
     } bind Repository::class
 
@@ -262,6 +267,10 @@ private val dataModule = module {
             lyricsDao = get()
         )
     } bind LyricsRepository::class
+
+    single {
+        RealAiAlbumRepository(aiAlbumDao = get())
+    } bind com.mardous.booming.data.local.repository.AiAlbumRepository::class
 }
 
 private val viewModule = module {
@@ -372,7 +381,8 @@ private val aiModule = module {
     single {
         AiAlbumGeneratorService(
             aiPreferences = get(),
-            geminiClient = get()
+            geminiClient = get(),
+            aiAlbumRepository = get()
         )
     }
 }

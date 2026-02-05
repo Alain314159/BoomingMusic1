@@ -43,6 +43,9 @@ import com.mardous.booming.ui.component.views.MusicSlider
 import com.mardous.booming.ui.screen.player.PlayerAnimator
 import com.mardous.booming.util.DISPLAY_NEXT_SONG
 import com.mardous.booming.util.Preferences
+import com.mardous.booming.ai.ui.view.AiPlayerControlsView
+import com.mardous.booming.ai.ui.AiPlayerViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.LinkedList
 
 /**
@@ -52,6 +55,7 @@ class DefaultPlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragmen
 
     private var _binding: FragmentDefaultPlayerPlaybackControlsBinding? = null
     private val binding get() = _binding!!
+    private val aiPlayerViewModel: AiPlayerViewModel by sharedViewModel()
 
     override val playPauseFab: FloatingActionButton
         get() = binding.playPauseButton
@@ -91,6 +95,14 @@ class DefaultPlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragmen
         binding.previousButton.setOnTouchListener(getSkipButtonTouchHandler(DIRECTION_PREVIOUS))
 
         setupQueueInfoView()
+
+        // Setup AI controls if present
+        val aiView = binding.root.findViewById<AiPlayerControlsView?>(R.id.aiControlsView)
+        try {
+            aiView?.setup(aiPlayerViewModel, playerViewModel.currentSong, "", viewLifecycleOwner)
+        } catch (e: Exception) {
+            // ignore
+        }
     }
 
     override fun onCreatePlayerAnimator(): PlayerAnimator {
@@ -102,6 +114,12 @@ class DefaultPlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragmen
             nonNullBinding.title.text = currentSong.title
             nonNullBinding.text.text = getSongArtist(currentSong)
             nonNullBinding.queueInfo.text = getNextSongInfo(nextSong)
+            // Update AI controls when song changes
+            val aiView = nonNullBinding.root.findViewById<AiPlayerControlsView?>(R.id.aiControlsView)
+            try {
+                aiView?.setup(aiPlayerViewModel, currentSong, "", viewLifecycleOwner)
+            } catch (e: Exception) {
+            }
         }
     }
 

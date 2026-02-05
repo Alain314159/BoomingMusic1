@@ -16,7 +16,7 @@
         android:layout_weight="1"
         android:text="@string/ai_translate_lyrics"
         android:textSize="12sp"
-        app:icon="@drawable/ic_edit"
+        app:icon="@drawable/ic_edit_audio_24dp"
         app:iconSize="18dp" />
 
     <com.google.android.material.button.MaterialButton
@@ -28,7 +28,7 @@
         android:layout_weight="1"
         android:text="@string/ai_search_lyrics"
         android:textSize="12sp"
-        app:icon="@drawable/ic_search"
+        app:icon="@drawable/ic_clear_24dp"
         app:iconSize="18dp" />
 
 </LinearLayout>
