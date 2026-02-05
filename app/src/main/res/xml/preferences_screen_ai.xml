@@ -23,7 +23,7 @@
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory
-        app:title="Lyrics & Metadata"
+        app:title="Lyrics &amp; Metadata"
         app:iconSpaceReserved="false">
 
         <androidx.preference.SwitchPreferenceCompat
