@@ -40,7 +40,7 @@ class AiAlbumAdapter(
         holder.itemView.setOnClickListener {
             // Create playlist and add songs
             holder.itemView.isEnabled = false
-            Snackbar.make(holder.itemView, activity.getString(R.string.creating_playlist), Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(holder.itemView, activity.getString(R.string.ai_creating_playlist), Snackbar.LENGTH_SHORT).show()
             activity.lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
                     try {
@@ -66,7 +66,7 @@ class AiAlbumAdapter(
                 }
 
                 holder.itemView.isEnabled = true
-                Snackbar.make(holder.itemView, activity.getString(R.string.playlist_created), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(holder.itemView, activity.getString(R.string.ai_playlist_created), Snackbar.LENGTH_SHORT).show()
             }
         }
     }

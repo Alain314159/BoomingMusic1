@@ -402,8 +402,8 @@
     <string name="recent_albums">Recent albums</string>
     <string name="no_suggestions">There are no suggestions for you</string>
     <string name="ai_albums">AI Albums</string>
-    <string name="creating_playlist">Creando lista de reproducción…</string>
-    <string name="playlist_created">Lista de reproducción creada</string>
+    <string name="ai_creating_playlist">Creando lista de reproducción…</string>
+    <string name="ai_playlist_created">Lista de reproducción creada</string>
 
     <!-- Shuffle modes -->
     <string name="shuffle_mode_pure_random">Pure random</string>
