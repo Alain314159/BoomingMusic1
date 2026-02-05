@@ -154,7 +154,8 @@ class RealRepository(
     private val smartRepository: SmartRepository,
     private val specialRepository: SpecialRepository,
     private val playlistRepository: PlaylistRepository,
-    private val searchRepository: SearchRepository
+    private val searchRepository: SearchRepository,
+    private val aiAlbumRepository: AiAlbumRepository
 ) : Repository {
 
     override suspend fun allSongs(): List<Song> = songRepository.songs()
@@ -337,6 +338,8 @@ class RealRepository(
             topAlbumsSuggestion(),
             recentArtistsSuggestion(),
             recentAlbumsSuggestion(),
+            // AI albums (if any)
+            Suggestion(ContentType.AiAlbums, aiAlbumRepository.recentAiAlbums().map { com.mardous.booming.data.model.AiAlbumMapper.fromEntity(it) }),
             favoritesSuggestion(),
             recommendedSongSuggestion()
         ).filter {

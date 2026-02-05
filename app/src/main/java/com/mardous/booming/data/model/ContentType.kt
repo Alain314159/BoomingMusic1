@@ -25,6 +25,7 @@ enum class ContentType(@StringRes internal val titleRes: Int) {
     RecentArtists(R.string.recent_artists),
     TopAlbums(R.string.top_albums),
     RecentAlbums(R.string.recent_albums),
+    AiAlbums(R.string.ai_albums),
     TopTracks(R.string.top_tracks_label),
     History(R.string.history_label),
     RecentSongs(R.string.last_added_label),
