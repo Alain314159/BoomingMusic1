@@ -12,7 +12,7 @@
             app:summary="Enter your Google Gemini API key"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true"
-            app:dialogInputType="text"/>
+            android:inputType="text"/>
 
         <androidx.preference.Preference
             app:key="test_connection"
