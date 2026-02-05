@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.preference.PreferenceCategory
+        app:title="Gemini API Configuration"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.EditTextPreference
+            app:key="gemini_api_key"
+            app:title="Gemini API Key"
+            app:summary="Enter your Google Gemini API key"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true"
+            app:dialogInputType="text"/>
+
+        <androidx.preference.Preference
+            app:key="test_connection"
+            app:title="Test Connection"
+            app:summary="Test Gemini API connection"
+            app:iconSpaceReserved="false"/>
+
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        app:title="Lyrics & Metadata"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.SwitchPreferenceCompat
+            app:key="auto_search_lyrics"
+            app:title="Auto Search Lyrics"
+            app:summary="Automatically search for missing lyrics using AI"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+        <androidx.preference.SwitchPreferenceCompat
+            app:key="auto_translate_lyrics"
+            app:title="Auto Translate Lyrics"
+            app:summary="Translate lyrics to your preferred language"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+        <androidx.preference.ListPreference
+            app:key="preferred_translate_lang"
+            app:title="Translation Language"
+            app:summary="Choose language for translations"
+            app:entries="@array/translate_languages"
+            app:entryValues="@array/translate_language_codes"
+            app:defaultValue="en"
+            app:iconSpaceReserved="false"/>
+
+        <androidx.preference.SwitchPreferenceCompat
+            app:key="auto_fix_metadata"
+            app:title="Fix Metadata"
+            app:summary="Use AI to correct and enrich song metadata"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        app:title="Daily Albums"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.SwitchPreferenceCompat
+            app:key="daily_album_enabled"
+            app:title="Generate Daily Albums"
+            app:summary="AI creates a daily curated album from your listening history"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"/>
+
+        <androidx.preference.Preference
+            app:key="generate_album_now"
+            app:title="Generate Album Now"
+            app:summary="Create an AI-curated album from recent songs"
+            app:iconSpaceReserved="false"/>
+
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        app:title="Statistics"
+        app:iconSpaceReserved="false">
+
+        <androidx.preference.Preference
+            app:key="request_count"
+            app:title="API Requests Used"
+            app:summary="Total Gemini API requests made"
+            app:iconSpaceReserved="false"
+            app:enabled="false"/>
+
+    </androidx.preference.PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

@@ -64,6 +64,13 @@
             app:popEnterAnim="@anim/booming_fragment_close_enter"
             app:popExitAnim="@anim/booming_fragment_close_exit"
             app:destination="@+id/nav_advanced_preferences"/>
+        <action
+            android:id="@+id/action_to_aiPreferences"
+            app:enterAnim="@anim/booming_fragment_open_enter"
+            app:exitAnim="@anim/booming_fragment_open_exit"
+            app:popEnterAnim="@anim/booming_fragment_close_enter"
+            app:popExitAnim="@anim/booming_fragment_close_exit"
+            app:destination="@+id/nav_ai_preferences"/>
     </fragment>
     <fragment
         android:id="@+id/nav_interface_preferences"
@@ -89,4 +96,8 @@
         android:id="@+id/nav_advanced_preferences"
         android:name="com.mardous.booming.ui.screen.settings.AdvancedPreferencesFragment"
         android:label="@string/advanced_title"/>
+    <fragment
+        android:id="@+id/nav_ai_preferences"
+        android:name="com.mardous.booming.ui.screen.settings.AiPreferencesFragment"
+        android:label="AI Settings"/>
 </navigation>

@@ -53,6 +53,11 @@ import com.mardous.booming.data.remote.jsonHttpClient
 import com.mardous.booming.data.remote.lastfm.LastFmService
 import com.mardous.booming.data.remote.lyrics.LyricsDownloadService
 import com.mardous.booming.data.remote.provideOkHttp
+import com.mardous.booming.ai.AiPreferences
+import com.mardous.booming.ai.GeminiClient
+import com.mardous.booming.ai.services.AiAlbumGeneratorService
+import com.mardous.booming.ai.services.LyricsTranslationService
+import com.mardous.booming.ai.services.MetadataEnricherService
 import com.mardous.booming.playback.SleepTimer
 import com.mardous.booming.playback.equalizer.EqualizerManager
 import com.mardous.booming.playback.processor.BalanceAudioProcessor
@@ -70,6 +75,7 @@ import com.mardous.booming.ui.screen.library.search.SearchViewModel
 import com.mardous.booming.ui.screen.library.years.YearDetailViewModel
 import com.mardous.booming.ui.screen.lyrics.LyricsViewModel
 import com.mardous.booming.ui.screen.player.PlayerViewModel
+import com.mardous.booming.ai.ui.AiPlayerViewModel
 import com.mardous.booming.ui.screen.sleeptimer.SleepTimerViewModel
 import com.mardous.booming.ui.screen.tageditor.TagEditorViewModel
 import com.mardous.booming.ui.screen.update.UpdateViewModel
@@ -324,6 +330,14 @@ private val viewModule = module {
     }
 
     viewModel {
+        AiPlayerViewModel(
+            aiPreferences = get(),
+            lyricsService = get(),
+            metadataService = get()
+        )
+    }
+
+    viewModel {
         InfoViewModel(repository = get())
     }
 
@@ -336,4 +350,31 @@ private val viewModule = module {
     }
 }
 
-val appModules = listOf(networkModule, mainModule, roomModule, dataModule, viewModule)
+private val aiModule = module {
+    single {
+        AiPreferences(context = androidContext())
+    }
+    single {
+        GeminiClient(aiPreferences = get())
+    }
+    single {
+        LyricsTranslationService(
+            aiPreferences = get(),
+            geminiClient = get()
+        )
+    }
+    single {
+        MetadataEnricherService(
+            aiPreferences = get(),
+            geminiClient = get()
+        )
+    }
+    single {
+        AiAlbumGeneratorService(
+            aiPreferences = get(),
+            geminiClient = get()
+        )
+    }
+}
+
+val appModules = listOf(networkModule, mainModule, roomModule, dataModule, viewModule, aiModule)

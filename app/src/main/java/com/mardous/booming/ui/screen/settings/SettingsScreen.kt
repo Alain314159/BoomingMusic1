@@ -30,5 +30,6 @@ enum class SettingsScreen(@LayoutRes val layoutRes: Int, @IdRes val navAction: I
     Lyrics(R.xml.preferences_screen_lyrics, R.id.action_to_lyricsPreferences),
     Playback(R.xml.preferences_screen_playback, R.id.action_to_playbackPreferences),
     Library(R.xml.preferences_screen_library, R.id.action_to_libraryPreferences),
-    Advanced(R.xml.preferences_screen_advanced, R.id.action_to_advancedPreferences);
+    Advanced(R.xml.preferences_screen_advanced, R.id.action_to_advancedPreferences),
+    Ai(R.xml.preferences_screen_ai, R.id.action_to_aiPreferences);
 }

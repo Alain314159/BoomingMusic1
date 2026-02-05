@@ -233,4 +233,17 @@ dependencies {
     implementation(libs.versioncompare)
     implementation(libs.commons.text)
     implementation(libs.juniversalchardet)
+
+    // Retrofit & OkHttp for Gemini API
+    implementation(libs.bundles.retrofit)
+    
+    // Security for encrypted SharedPreferences
+    implementation(libs.security.crypto)
+    
+    // WorkManager for background tasks
+    implementation(libs.work.runtime)
+    
+    // Moshi for JSON serialization (alternative to kotlinx-serialization)
+    implementation(libs.moshi)
+    ksp(libs.moshi.codegen)
 }

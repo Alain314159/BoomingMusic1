@@ -931,4 +931,16 @@
     <string name="uncaught_error_restart_app">Restart app</string>
     <string name="uncaught_error_github">Open issue on GitHub</string>
     <string name="uncaught_error_send">Send report</string>
+
+    <!-- AI Features -->
+    <string name="ai_translate_lyrics">Translate Lyrics</string>
+    <string name="ai_search_lyrics">Search Lyrics</string>
+    <string name="ai_enrich_metadata">Enrich Metadata</string>
+    <string name="ai_settings">AI Settings</string>
+    <string name="ai_api_key">Gemini API Key</string>
+    <string name="ai_daily_albums">Generate Daily Albums</string>
+    <string name="ai_auto_translate">Auto-translate lyrics</string>
+    <string name="ai_auto_search">Auto-search missing lyrics</string>
+    <string name="ai_auto_enrich">Auto-enrich metadata</string>
+    <string name="ai_preferred_language">Preferred translation language</string>
 </resources>

@@ -102,6 +102,12 @@ class AdvancedPreferencesFragment : PreferenceScreenFragment() {
     }
 }
 
+class AiPreferencesFragment : PreferenceScreenFragment() {
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        addPreferencesFromResource(R.xml.preferences_screen_ai)
+    }
+}
+
 open class PreferenceScreenFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
