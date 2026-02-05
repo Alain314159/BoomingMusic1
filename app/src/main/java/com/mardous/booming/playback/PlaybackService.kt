@@ -809,16 +809,13 @@ class PlaybackService :
                 ImageRequest.Builder(this@PlaybackService)
                     .data(song)
                     .scale(Scale.FILL)
-                    .size(300)
+                    .size(120)
                     .build()
             )
-            val artworkData = result.image?.toBitmap(300, 300)?.let { bitmap ->
+            val artworkData = result.image?.toBitmap(120, 120)?.let { bitmap ->
                 val stream = ByteArrayOutputStream()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSY, 80, stream)
-                } else {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, stream)
-                }
+                // Keep image quality 100% per request
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                 stream.toByteArray()
             }
             PlaybackState(

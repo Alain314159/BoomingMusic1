@@ -107,7 +107,7 @@ class MetadataWriter : KoinComponent {
         if (target.artworkId == -1L || pictureBitmap == null) {
             return null
         }
-        val byteArray = ByteArrayOutputStream(pictureBitmap.byteCount).use {
+        val byteArray = ByteArrayOutputStream().use {
             pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
             it.toByteArray()
         }
