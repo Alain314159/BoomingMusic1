@@ -36,6 +36,9 @@ import com.mardous.booming.ui.component.base.SkipButtonTouchHandler.Companion.DI
 import com.mardous.booming.ui.component.views.MusicSlider
 import com.mardous.booming.ui.screen.player.PlayerAnimator
 import com.mardous.booming.util.Preferences
+import com.mardous.booming.ai.ui.view.AiPlayerControlsView
+import com.mardous.booming.ai.ui.AiPlayerViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.LinkedList
 
 /**
@@ -45,6 +48,7 @@ class PlainPlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragment_
 
     private var _binding: FragmentPlainPlayerPlaybackControlsBinding? = null
     private val binding get() = _binding!!
+    private val aiPlayerViewModel: com.mardous.booming.ai.ui.AiPlayerViewModel by sharedViewModel()
 
     override val playPauseFab: FloatingActionButton
         get() = binding.playPauseButton
@@ -75,6 +79,13 @@ class PlainPlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragment_
         binding.repeatButton.setOnClickListener(this)
         binding.nextButton.setOnTouchListener(getSkipButtonTouchHandler(DIRECTION_NEXT))
         binding.previousButton.setOnTouchListener(getSkipButtonTouchHandler(DIRECTION_PREVIOUS))
+
+        // Setup AI controls if present
+        val aiView = binding.root.findViewById<AiPlayerControlsView?>(R.id.aiControlsView)
+        try {
+            aiView?.setup(aiPlayerViewModel, playerViewModel.currentSong, "", viewLifecycleOwner)
+        } catch (e: Exception) {
+        }
     }
 
     override fun getTintTargets(scheme: PlayerColorScheme): List<PlayerTintTarget> {
@@ -116,7 +127,16 @@ class PlainPlayerControlsFragment : AbsPlayerControlsFragment(R.layout.fragment_
         return PlainPlayerAnimator(binding, Preferences.animateControls)
     }
 
-    override fun onSongInfoChanged(currentSong: Song, nextSong: Song) {}
+    override fun onSongInfoChanged(currentSong: Song, nextSong: Song) {
+        // Update AI controls when song changes
+        _binding?.let { binding ->
+            val aiView = binding.root.findViewById<AiPlayerControlsView?>(R.id.aiControlsView)
+            try {
+                aiView?.setup(aiPlayerViewModel, currentSong, "", viewLifecycleOwner)
+            } catch (e: Exception) {
+            }
+        }
+    }
 
     override fun onExtraInfoChanged(extraInfo: String?) {
         _binding?.let { nonNullBinding ->

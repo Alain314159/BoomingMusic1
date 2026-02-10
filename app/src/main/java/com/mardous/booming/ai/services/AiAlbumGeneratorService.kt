@@ -12,7 +12,8 @@ import kotlinx.serialization.json.Json
  */
 class AiAlbumGeneratorService(
     private val aiPreferences: AiPreferences,
-    private val geminiClient: GeminiClient
+    private val geminiClient: GeminiClient,
+    private val aiAlbumRepository: com.mardous.booming.data.local.repository.AiAlbumRepository
 ) {
 
     @Serializable
@@ -105,6 +106,37 @@ class AiAlbumGeneratorService(
             Log.e("AlbumGenerator", "Error generating album", e)
             Result.failure(e)
         }
+    }
+
+    private fun toCommaSeparatedIds(ids: List<Long>) = ids.joinToString(",")
+
+    /**
+     * Generate and persist an AI album (helper that saves to DB)
+     */
+    suspend fun generateAndPersistDaily(
+        recentSongs: List<com.mardous.booming.data.model.Song>,
+        playCounts: Map<Long, Int> = emptyMap(),
+        targetTrackCount: Int = 10
+    ): Result<GeneratedAlbum> {
+        val res = generateDaily(recentSongs, playCounts, targetTrackCount)
+        res.onSuccess { album ->
+            try {
+                val trackIds = album.selectedTrackIndices.mapNotNull { idx -> recentSongs.getOrNull(idx)?.id }
+                val entity = com.mardous.booming.data.local.room.AiAlbumEntity(
+                    title = album.title,
+                    description = album.description,
+                    theme = album.theme,
+                    trackIds = toCommaSeparatedIds(trackIds),
+                    suggestedGenres = album.suggestedGenres.joinToString(","),
+                    coverPrompt = album.coverPrompt,
+                    coverUri = null
+                )
+                aiAlbumRepository.saveAlbum(entity)
+            } catch (e: Exception) {
+                Log.e("AlbumGenerator", "Failed to persist AI album", e)
+            }
+        }
+        return res
     }
 
     /**

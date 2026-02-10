@@ -15,9 +15,10 @@ import com.mardous.booming.data.local.room.*
         QueueEntity::class,
         InclExclEntity::class,
         LyricsEntity::class,
-        CanvasEntity::class
+        CanvasEntity::class,
+        AiAlbumEntity::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class BoomingDatabase : RoomDatabase() {
@@ -28,6 +29,7 @@ abstract class BoomingDatabase : RoomDatabase() {
     abstract fun inclExclDao(): InclExclDao
     abstract fun lyricsDao(): LyricsDao
     abstract fun canvasDao(): CanvasDao
+    abstract fun aiAlbumDao(): com.mardous.booming.data.local.room.AiAlbumDao
 
     companion object {
         val MIGRATION_1_2 = object : Migration(1, 2) {
@@ -46,6 +48,12 @@ abstract class BoomingDatabase : RoomDatabase() {
         val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("CREATE TABLE IF NOT EXISTS `CanvasEntity` (`id` INT NOT NULL, `canvas_url` TEXT NOT NULL, `fetch_time` INT NOT NULL, PRIMARY KEY(`id`))")
+            }
+        }
+
+        val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE IF NOT EXISTS `AiAlbumEntity` (`ai_album_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `description` TEXT, `theme` TEXT, `track_ids` TEXT NOT NULL, `suggested_genres` TEXT, `cover_prompt` TEXT, `cover_uri` TEXT, `generated_at` INTEGER NOT NULL)")
             }
         }
     }
